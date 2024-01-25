@@ -30,16 +30,16 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
     msg = await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
 
-    df = pd.read_excel(file_path, usecols=['ID']).astype('str')
+    df = pd.read_excel(file_path).astype('str')
 
     # Проверка существует ли человек в базе данных
-    row_index = df[df == str(message.chat.id)].index.tolist()
+    row_index = df[df["ID"] == str(message.chat.id)].index.tolist()
     ic(row_index)
 
     if not row_index:
         # Если не существует, то добавляется в бд
-        df.at[len(df)] = str(message.chat.id)
-        df.to_frame().to_excel(file_path, index=False)
+        df.loc[len(df), "ID"] = str(message.chat.id)
+        df.to_excel(file_path, index=False)
 
     ic(df)
     await state.set_state(UserState.name)
@@ -52,14 +52,15 @@ async def form_name_handler(message: Message, state: FSMContext) -> None:
     set_func_and_person(function_name, tag, message)
 
     fio = message.text.split(' ')
+    data = await state.get_data()
 
     if len(fio) != 3:
-        text = "Неправильный формат. Повторите попытку."
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
+                                    text="Неправильный формат. Повторите попытку.")
     else:
         auxiliary.save_data(message.chat.id, name, message.text)
         text = f"Проверьте правильность введённых данных\n\n{message.text}"
 
-    data = await state.get_data()
-    await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
-                                text=text, reply_markup=inline.get_check_or_recreate())
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
+                                    text=text, reply_markup=inline.get_check_or_recreate())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)

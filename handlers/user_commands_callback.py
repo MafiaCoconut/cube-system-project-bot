@@ -35,7 +35,6 @@ async def form_division_callback(call: CallbackQuery):
     set_func_and_person(func_name, tag, call.message)
 
     data = call.data[call.data.find('_')+1:]
-    ic(data)
 
     is_montage = False
     text = ""
@@ -56,8 +55,8 @@ async def form_division_callback(call: CallbackQuery):
 
     if is_montage:
         await call.message.edit_text(question_2_1, reply_markup=inline.get_question_2_1())
-
-    await call.message.edit_text(question_1_1, reply_markup=inline.get_question_1_1())
+    else:
+        await call.message.edit_text(question_1_1, reply_markup=inline.get_question_1_1())
 
 
 

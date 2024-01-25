@@ -30,7 +30,6 @@ async def form_question_1_2(call: CallbackQuery):
     set_func_and_person(func_name, tag, call.message)
 
     data = call.data[13:]
-    ic(data)
 
     text = ""
     match data:
@@ -45,4 +44,59 @@ async def form_question_1_2(call: CallbackQuery):
 
     await call.message.edit_text("Спасибо за прохождение анкеты. Если вы считаете, что вы где-то допустили ошибку, "
                                  "вы можете пройти анкету ещё раз")
+
+
+async def form_question_2_1(call: CallbackQuery):
+    func_name = "form_question_2_1"
+    set_func_and_person(func_name, tag, call.message)
+
+    data = call.data[13:]
+    text = helper[data]
+    auxiliary.save_data(call.message.chat.id, question_1, text)
+    await call.message.edit_text(text=question_2_2, reply_markup=inline.get_question_2_2())
+
+
+async def form_question_2_2(call: CallbackQuery):
+    func_name = "form_question_2_2"
+    set_func_and_person(func_name, tag, call.message)
+
+    data = call.data[13:]
+    text = ""
+    match data:
+        case "answer_1":
+            text = "Под руководством непосредственного руководителя (руководителя работ, начальника ОМ, исполнительного директора)"
+        case "answer_2":
+            text = "Вы самостоятельно планируете и организовываете свою работу"
+
+    auxiliary.save_data(call.message.chat.id, question_2, text)
+    await call.message.edit_text(text=question_2_3, reply_markup=inline.get_question_2_3())
+
+
+async def form_question_2_3(call: CallbackQuery):
+    func_name = "form_question_2_3"
+    set_func_and_person(func_name, tag, call.message)
+
+    data = call.data[13:]
+    text = helper[data]
+    auxiliary.save_data(call.message.chat.id, question_3, text)
+    await call.message.edit_text(text=question_2_4, reply_markup=inline.get_question_2_4())
+
+
+async def form_question_2_4(call: CallbackQuery):
+    func_name = "form_question_2_4"
+    set_func_and_person(func_name, tag, call.message)
+
+    data = call.data[13:]
+    text = ""
+    match data:
+        case "answer_1":
+            text = "В основном под руководством непосредственного руководителя (руководителя работ, начальника ОМ, исполнительного директора)"
+        case "answer_2":
+            text = "Как правило, Вы самостоятельно планируете и организовываете свою работу"
+
+    auxiliary.save_data(call.message.chat.id, question_4, text)
+
+    await call.message.edit_text("Спасибо за прохождение анкеты. Если вы считаете, что вы где-то допустили ошибку, "
+                                 "вы можете пройти анкету ещё раз")
+
 
