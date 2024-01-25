@@ -1,0 +1,12 @@
+[Unit]
+Description=cube-system-project-bot
+After=multi-user.target
+
+[Service]
+type=simple
+ExecStart=/home/pi/Projects/cube-system-project-bot/venv/bin/python /home/pi/Projects/cube-system-project-bot/main.py
+WorkingDirectory=/home/pi/Projects/cube-system-project-bot/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
