@@ -9,12 +9,13 @@ from handlers import auxiliary
 from keyboards import inline
 
 import pandas as pd
+from icecream import ic
 
 from config.log_def import set_func, set_func_and_person
 from utils.fluent import list_of_available_languages
 from utils.states import UserState
-from config.config import name, chat_id as chat_id_text, structural_division, \
-    question_1, question_2, question_3, question_4
+from utils.bot import bot
+from config.config import name
 
 router = Router()
 tag = "user_commands"
@@ -27,23 +28,22 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
     function_name = "command_start_handler"
     set_func(function_name, tag, status)
 
-    await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
+    msg = await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
 
-    df = pd.read_excel(file_path)
-    print(df)
-    row_index = df.index[df['ID'] == message.chat.id].tolist()
+    df = pd.read_excel(file_path, usecols=['ID']).astype('str')
+
+    # Проверка существует ли человек в базе данных
+    row_index = df[df == str(message.chat.id)].index.tolist()
+    ic(row_index)
+
     if not row_index:
+        # Если не существует, то добавляется в бд
+        df.at[len(df)] = str(message.chat.id)
+        df.to_frame().to_excel(file_path, index=False)
 
-        first_empty_cell = df["ID"].isna().idxmax() if df["ID"].isna().any() else len(df)
-
-        if first_empty_cell == len(df):
-            df.loc[first_empty_cell] = [str(message.chat.id)] + [pd.NA] * (len(df.columns) - 1)
-        else:
-            df.at[first_empty_cell, "ID"] = message.chat.id
-
-        df.to_excel(file_path, index=False)
-
+    ic(df)
     await state.set_state(UserState.name)
+    await state.update_data(last_message_id=msg.message_id)
 
 
 @router.message(UserState.name)
@@ -54,14 +54,12 @@ async def form_name_handler(message: Message, state: FSMContext) -> None:
     fio = message.text.split(' ')
 
     if len(fio) != 3:
-        await message.answer("Неправильный формат. Повторите попытку.")
+        text = "Неправильный формат. Повторите попытку."
     else:
-        df = pd.read_excel('data/main.xlsx')
-        row_index = df.index[df['ID'] == message.chat.id].tolist()[0]
-        df.at[row_index, name] = message.text
-        print(df)
-        df.to_excel(file_path, index=False)
+        auxiliary.save_data(message.chat.id, name, message.text)
+        text = f"Проверьте правильность введённых данных\n\n{message.text}"
 
-
-
-
+    data = await state.get_data()
+    await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
+                                text=text, reply_markup=inline.get_check_or_recreate())
+    await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)

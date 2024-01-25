@@ -1,6 +1,6 @@
 from aiogram import Dispatcher, F
 
-from handlers import bot_messages, user_commands
+from handlers import bot_messages, user_commands, user_commands_callback, questions_callback
 
 dp = Dispatcher()
 # dp.message.middleware(SomeMiddleware())
@@ -15,7 +15,13 @@ def include_routers():
 
 
 def register_all_callbacks():
-    pass
+    dp.callback_query.register(user_commands_callback.save_name_callback, F.data == "fio_save")
+    dp.callback_query.register(user_commands_callback.rewrite_name_callback, F.data == "fio_rewrite")
+
+    dp.callback_query.register(user_commands_callback.form_division_callback, F.data.startswith("division"))
+
+    dp.callback_query.register(questions_callback.form_question_1_1, F.data.startswith("question_1_1"))
+    dp.callback_query.register(questions_callback.form_question_1_2, F.data.startswith("question_1_2"))
     # # Help меню админа
     # register_admin_help_menu()
     #

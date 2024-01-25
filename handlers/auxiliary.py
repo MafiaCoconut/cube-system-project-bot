@@ -1,5 +1,8 @@
 from datetime import datetime
 
+import pandas as pd
+from icecream import ic
+
 from config.config import get_admin_id
 from aiogram.types import CallbackQuery
 from utils.bot import bot
@@ -43,3 +46,16 @@ def is_weekday():
     if 1 <= weekday <= 5:
         return True
     return False
+
+
+def get_row_index(chat_id):
+    df = pd.read_excel("data/main.xlsx")
+    row_index = df.index[df['ID'] == chat_id].tolist()[0]
+    return row_index
+
+
+def save_data(chat_id, column_name, text):
+    df = pd.read_excel("data/main.xlsx").astype("str")
+    row_index = df.index[df['ID'] == str(chat_id)].tolist()[0]
+    df.at[row_index, column_name] = text
+    df.to_excel("data/main.xlsx", index=False)

@@ -2,6 +2,7 @@ from aiogram.fsm.state import StatesGroup, State
 
 
 class UserState(StatesGroup):
+    last_message_id = State()
     name = State()
     structural_division = State()
     question_1 = State()
