@@ -34,14 +34,14 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
     # Проверка существует ли человек в базе данных
     row_index = df[df["ID"] == str(message.chat.id)].index.tolist()
-    ic(row_index)
+    # ic(row_index)
 
     if not row_index:
         # Если не существует, то добавляется в бд
         df.loc[len(df), "ID"] = str(message.chat.id)
         df.to_excel(file_path, index=False)
 
-    ic(df)
+    # ic(df)
     await state.set_state(UserState.name)
     await state.update_data(last_message_id=msg.message_id)
 
@@ -72,3 +72,14 @@ async def send_data(message: Message):
     set_func_and_person(function_name, tag, message)
 
     await message.answer_document(document=FSInputFile(path='data/main.xlsx'))
+
+
+@router.message(Command('send_logs'), IsAdmin())
+async def admin_send_logs_with_command(message: Message):
+    function_name = "admin_send_logs_with_command"
+    set_func(function_name, tag)
+
+    text = "Логи отправлены"
+
+    await message.answer_document(text=text, document=FSInputFile(path='data.log'))
+
