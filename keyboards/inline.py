@@ -99,8 +99,8 @@ def get_question_2_2():
 def get_question_2_3():
     question_2_3 = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_2_3_yes')],
-            [InlineKeyboardButton(text="2", callback_data='question_2_3_no')],
+            [InlineKeyboardButton(text="1", callback_data='question_2_3_yes'),
+             InlineKeyboardButton(text="2", callback_data='question_2_3_no')],
         ]
     )
     return question_2_3
@@ -109,9 +109,9 @@ def get_question_2_3():
 def get_question_2_4():
     question_2_4 = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_2_4_answer_1')],
+            [InlineKeyboardButton(text="1", callback_data='question_2_4_answer_1'),
 
-            [InlineKeyboardButton(text="2", callback_data='question_2_4_answer_2')],
+             InlineKeyboardButton(text="2", callback_data='question_2_4_answer_2')],
         ]
     )
     return question_2_4
