@@ -43,7 +43,7 @@ async def form_question_1_2(call: CallbackQuery):
     auxiliary.save_data(call.message.chat.id, question_4, "-")
 
     await call.message.edit_text("Спасибо за прохождение анкеты. Если вы считаете, что вы где-то допустили ошибку, "
-                                 "вы можете пройти анкету ещё раз")
+                                 "вы можете пройти анкету ещё раз введя /start")
 
 
 async def form_question_2_1(call: CallbackQuery):
@@ -79,7 +79,12 @@ async def form_question_2_3(call: CallbackQuery):
     data = call.data[13:]
     text = helper[data]
     auxiliary.save_data(call.message.chat.id, question_3, text)
-    await call.message.edit_text(text=question_2_4, reply_markup=inline.get_question_2_4())
+    if data == "yes":
+        await call.message.edit_text(text=question_2_4, reply_markup=inline.get_question_2_4())
+    else:
+        await call.message.edit_text("Спасибо за прохождение анкеты. Если вы считаете, что вы где-то допустили ошибку, "
+                                     "вы можете пройти анкету ещё раз введя /start")
+        auxiliary.save_data(call.message.chat.id, question_4, '-')
 
 
 async def form_question_2_4(call: CallbackQuery):
@@ -97,6 +102,6 @@ async def form_question_2_4(call: CallbackQuery):
     auxiliary.save_data(call.message.chat.id, question_4, text)
 
     await call.message.edit_text("Спасибо за прохождение анкеты. Если вы считаете, что вы где-то допустили ошибку, "
-                                 "вы можете пройти анкету ещё раз")
+                                 "вы можете пройти анкету ещё раз введя /start")
 
 
