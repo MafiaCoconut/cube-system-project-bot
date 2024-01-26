@@ -30,10 +30,10 @@ async def rewrite_name_callback(call: CallbackQuery, state: FSMContext):
     await state.set_state(UserState.name)
 
 
-async def form_division_callback(call: CallbackQuery):
+async def form_division_callback(call: CallbackQuery, state: FSMContext):
     func_name = "form_division_callback"
     set_func_and_person(func_name, tag, call.message)
-
+    await state.clear()
     data = call.data[call.data.find('_')+1:]
 
     is_montage = False

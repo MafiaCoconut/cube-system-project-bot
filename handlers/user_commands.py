@@ -2,7 +2,7 @@ import logging
 
 from aiogram import Router
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from aiogram.fsm.context import FSMContext
 
 from handlers import auxiliary
@@ -16,7 +16,7 @@ from utils.fluent import list_of_available_languages
 from utils.states import UserState
 from utils.bot import bot
 from config.config import name
-
+from filters.is_admin import IsAdmin
 router = Router()
 tag = "user_commands"
 status = "debug"
@@ -64,3 +64,11 @@ async def form_name_handler(message: Message, state: FSMContext) -> None:
         await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
                                     text=text, reply_markup=inline.get_check_or_recreate())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+
+
+@router.message(Command('send_data'), IsAdmin())
+async def send_data(message: Message):
+    function_name = "form_name_handler"
+    set_func_and_person(function_name, tag, message)
+
+    await message.answer_document(document=FSInputFile(path='data/main.xlsx'))
