@@ -167,3 +167,4 @@ config/settings.py
 test.py
 geckodriver.exe
 data/.~lock.main.xlsx#
+data/main.xlsx
