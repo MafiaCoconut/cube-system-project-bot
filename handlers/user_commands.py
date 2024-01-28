@@ -60,7 +60,7 @@ async def form_name_handler(message: Message, state: FSMContext) -> None:
     else:
         auxiliary.save_data(message.chat.id, name, message.text)
         text = f"Проверьте правильность введённых данных\n\n{message.text}"
-
+        await state.clear()
         await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
                                     text=text, reply_markup=inline.get_check_or_recreate())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)

@@ -13,9 +13,10 @@ from config.config import structural_division
 tag = "callback_handlers"
 
 
-async def save_name_callback(call: CallbackQuery):
+async def save_name_callback(call: CallbackQuery, state: FSMContext):
     func_name = "save_name_callback"
     set_func_and_person(func_name, tag, call.message)
+    await state.clear()
 
     await call.message.edit_text("Выберите ваше подразделение:",
                                  reply_markup=inline.get_structural_division())
