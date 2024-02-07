@@ -31,14 +31,14 @@ def get_settings_language_from_start():
     return languages
 
 
-def get_check_or_recreate():
-    check_or_recreate = InlineKeyboardMarkup(
+def get_save_or_recreate():
+    save_or_recreate = InlineKeyboardMarkup(
         inline_keyboard=[
             [InlineKeyboardButton(text="Сохранить", callback_data='fio_save')],
             [InlineKeyboardButton(text="Перезаписать", callback_data='fio_rewrite')]
         ]
     )
-    return check_or_recreate
+    return save_or_recreate
 
 
 def get_structural_division():
@@ -54,64 +54,5 @@ def get_structural_division():
     return structural_division
 
 
-def get_question_1_1():
-    question_1_1 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_1_1_yes'),
-             InlineKeyboardButton(text="2", callback_data='question_1_1_part'),
-             InlineKeyboardButton(text="3", callback_data='question_1_1_no')],
-        ]
-    )
-    return question_1_1
-
-
-def get_question_1_2():
-    question_1_2 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_1_2_answer_1'),
-             InlineKeyboardButton(text="2", callback_data='question_1_2_answer_2')],
-        ]
-    )
-    return question_1_2
-
-
-def get_question_2_1():
-    question_2_1 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_2_1_yes'),
-             InlineKeyboardButton(text="2", callback_data='question_2_1_part'),
-             InlineKeyboardButton(text="3", callback_data='question_2_1_no')],
-        ]
-    )
-    return question_2_1
-
-
-def get_question_2_2():
-    question_2_2 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_2_2_answer_1'),
-             InlineKeyboardButton(text="2", callback_data='question_2_2_answer_2')]
-        ]
-    )
-    return question_2_2
-
-
-def get_question_2_3():
-    question_2_3 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_2_3_yes'),
-             InlineKeyboardButton(text="2", callback_data='question_2_3_no')],
-        ]
-    )
-    return question_2_3
-
-
-def get_question_2_4():
-    question_2_4 = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="1", callback_data='question_2_4_answer_1'),
-
-             InlineKeyboardButton(text="2", callback_data='question_2_4_answer_2')],
-        ]
-    )
-    return question_2_4
+def get_questions_options(questions_number):
+    questions_number
