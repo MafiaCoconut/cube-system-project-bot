@@ -18,6 +18,7 @@ from utils.states import UserState
 from utils.bot import bot
 from config.config import name
 from filters.is_admin import IsAdmin
+
 router = Router()
 tag = "user_commands"
 status = "debug"
@@ -42,8 +43,8 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
     # if not row_index:
     #     Если не существует, то добавляется в бд
-        # df.loc[len(df), "ID"] = str(message.chat.id)
-        # df.to_excel(file_path, index=False)
+    # df.loc[len(df), "ID"] = str(message.chat.id)
+    # df.to_excel(file_path, index=False)
 
     # ic(df)
     await state.set_state(UserState.name)
@@ -89,3 +90,12 @@ async def admin_send_logs_with_command(message: Message):
 
     await message.answer_document(text=text, document=FSInputFile(path='data.log'))
 
+
+from handlers.auxiliary import headers, get_header, get_question
+@router.message(Command('get_test'), IsAdmin())
+async def admin_get_headers(message: Message):
+    function_name = "admin_get_headers"
+    set_func(function_name, tag)
+    for i in headers.keys():
+        ic(get_question(i, 2))
+    # await message.answer_document(text=text, document=FSInputFile(path='data.log'))

@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import openpyxl
 import pandas as pd
 from icecream import ic
 
@@ -59,3 +60,39 @@ def save_data(chat_id, column_name, text):
     row_index = df.index[df['ID'] == str(chat_id)].tolist()[0]
     df.at[row_index, column_name] = text
     df.to_excel("data/main.xlsx", index=False)
+
+
+headers = {
+    "1.1":  3,
+    "1.2": 21,
+    "1.3": 41,
+    "2.1": 61,
+    "2.2": 80,
+    "2.3": 99,
+    "3.1": 115,
+    "3.2": 132,
+    "4.1": 150,
+    "4.2": 168,
+    "4.3": 188,
+    "4.4": 209,
+    "4.5": 230,
+    "4.6": 251,
+}
+
+
+def get_question(header, nummer):
+    workbook = openpyxl.load_workbook('data/main.xlsx')
+    sheet = workbook['Лист1']
+
+    header_row = headers[header]
+    return sheet.cell(row=header_row+nummer, column=2).value
+
+
+def get_header(header):
+    workbook = openpyxl.load_workbook('data/main.xlsx')
+    sheet = workbook['Лист1']
+
+    return sheet.cell(row=headers[header], column=2).value
+
+
+
