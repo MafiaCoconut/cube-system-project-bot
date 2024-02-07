@@ -20,12 +20,6 @@ def register_all_callbacks():
 
     dp.callback_query.register(user_commands_callback.form_division_callback, F.data.startswith("division"))
 
-    dp.callback_query.register(questions_callback.form_question_1_1, F.data.startswith("question_1_1"))
-    dp.callback_query.register(questions_callback.form_question_1_2, F.data.startswith("question_1_2"))
-    dp.callback_query.register(questions_callback.form_question_2_1, F.data.startswith("question_2_1"))
-    dp.callback_query.register(questions_callback.form_question_2_2, F.data.startswith("question_2_2"))
-    dp.callback_query.register(questions_callback.form_question_2_3, F.data.startswith("question_2_3"))
-    dp.callback_query.register(questions_callback.form_question_2_4, F.data.startswith("question_2_4"))
     # # Help меню админа
     # register_admin_help_menu()
     #

@@ -55,4 +55,14 @@ def get_structural_division():
 
 
 def get_questions_options(questions_number):
-    questions_number
+    questions_numbers = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="1", callback_data=f"{questions_number}_1")],
+            [InlineKeyboardButton(text="2", callback_data=f"{questions_number}_2")],
+            [InlineKeyboardButton(text="3", callback_data=f"{questions_number}_3")],
+            [InlineKeyboardButton(text="4", callback_data=f"{questions_number}_4")],
+            [InlineKeyboardButton(text="5", callback_data=f"{questions_number}_5")],
+            [InlineKeyboardButton(text="6", callback_data=f"{questions_number}_6")]
+        ]
+    )
+    return questions_numbers

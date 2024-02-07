@@ -1,3 +1,4 @@
+import openpyxl
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from icecream import ic
@@ -16,10 +17,20 @@ tag = "callback_handlers"
 async def save_name_callback(call: CallbackQuery, state: FSMContext):
     func_name = "save_name_callback"
     set_func_and_person(func_name, tag, call.message)
+    data = await state.get_data()
+    name = data['name']
+
     await state.clear()
 
-    await call.message.edit_text("Выберите ваше подразделение:",
-                                 reply_markup=inline.get_structural_division())
+    workbook = openpyxl.load_workbook('data/main.xlsx')
+    ic(workbook.sheetnames)
+    workbook.create_sheet(name.split(' ')[0])
+    ic(workbook.sheetnames)
+
+    workbook.save('data/main.xlsx')
+
+    # await call.message.edit_text("Выберите ваше подразделение:",
+    #                              reply_markup=inline.get_structural_division())
     await call.answer()
 
 

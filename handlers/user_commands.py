@@ -9,6 +9,7 @@ from handlers import auxiliary
 from keyboards import inline
 
 import pandas as pd
+import openpyxl
 from icecream import ic
 
 from config.log_def import set_func, set_func_and_person
@@ -30,16 +31,19 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
 
     msg = await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
 
-    df = pd.read_excel(file_path).astype('str')
+    # workbook = openpyxl.load_workbook('data/main.xlsx')
+    # ic(workbook.sheetnames)
+
+    # df = pd.read_excel(file_path).astype('str')
 
     # Проверка существует ли человек в базе данных
-    row_index = df[df["ID"] == str(message.chat.id)].index.tolist()
+    # row_index = df[df["ID"] == str(message.chat.id)].index.tolist()
     # ic(row_index)
 
-    if not row_index:
-        # Если не существует, то добавляется в бд
-        df.loc[len(df), "ID"] = str(message.chat.id)
-        df.to_excel(file_path, index=False)
+    # if not row_index:
+    #     Если не существует, то добавляется в бд
+        # df.loc[len(df), "ID"] = str(message.chat.id)
+        # df.to_excel(file_path, index=False)
 
     # ic(df)
     await state.set_state(UserState.name)
@@ -58,11 +62,13 @@ async def form_name_handler(message: Message, state: FSMContext) -> None:
         await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
                                     text="Неправильный формат. Повторите попытку.")
     else:
-        auxiliary.save_data(message.chat.id, name, message.text)
+        # auxiliary.save_data(message.chat.id, name, message.text)
         text = f"Проверьте правильность введённых данных\n\n{message.text}"
-        await state.clear()
+
+        await state.update_data(name=message.text)
+
         await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
-                                    text=text, reply_markup=inline.get_check_or_recreate())
+                                    text=text, reply_markup=inline.get_save_or_recreate())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
 
