@@ -63,36 +63,47 @@ def save_data(chat_id, column_name, text):
 
 
 headers = {
-    "1.1":  3,
-    "1.2": 21,
-    "1.3": 41,
-    "2.1": 61,
-    "2.2": 80,
-    "2.3": 99,
-    "3.1": 115,
-    "3.2": 132,
-    "4.1": 150,
-    "4.2": 168,
-    "4.3": 188,
-    "4.4": 209,
-    "4.5": 230,
-    "4.6": 251,
+    "1.1": [3, 17],
+    "1.2": [21, 19],
+    "1.3": [41, 19],
+    "2.1": [61, 18],
+    "2.2": [80, 18],
+    "2.3": [99, 15],
+    "3.1": [115, 16],
+    "3.2": [132, 17],
+    "4.1": [150, 17],
+    "4.2": [168, 19],
+    "4.3": [188, 20],
+    "4.4": [209, 20],
+    "4.5": [230, 20],
+    "4.6": [251, 20],
 }
 
 
-def get_question(header, nummer):
+def get_question(header_nummer, nummer):
     workbook = openpyxl.load_workbook('data/main.xlsx')
     sheet = workbook['Лист1']
 
-    header_row = headers[header]
+    header_row = headers[header_nummer][0]
     return sheet.cell(row=header_row+nummer, column=2).value
 
 
-def get_header(header):
+def get_header(header_nummer):
     workbook = openpyxl.load_workbook('data/main.xlsx')
     sheet = workbook['Лист1']
 
-    return sheet.cell(row=headers[header], column=2).value
+    return sheet.cell(row=headers[header_nummer][0], column=2).value
+
+
+def save_answers(id_in_db, header_nummer, answers):
+    workbook = openpyxl.load_workbook('data/main.xlsx')
+    sheet = workbook['Лист1']
+
+    for index, answer in enumerate(answers):
+        ic(index, answer)
+        sheet.cell(row=headers[header_nummer][0]+index+1, column=id_in_db).value = answer
+
+    workbook.save('data/main.xlsx')
 
 
 

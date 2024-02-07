@@ -12,7 +12,94 @@ from config.config import name, chat_id as chat_id_text, structural_division, \
     question_1, question_2, question_3, question_4
 
 tag = "callback_handlers"
-helper = {'yes': "Да", "no": "Нет", "part": "Частично"}
+helper = {'1': "Да", "2": "Нет"}
+
+
+async def send_question_1_1(call: CallbackQuery, state: FSMContext):
+    func_name = "send_question_1_1"
+    set_func_and_person(func_name, tag, call.message)
+    data = await state.get_data()
+
+    # проверка на начало раздела
+    try:
+        text = data['header']
+    except:
+        data['header'] = auxiliary.get_header('1.1')
+        data['header_nummer'] = "1.1"
+        data['answers'] = []
+
+        await state.update_data(data)
+
+    await call.message.edit_text(f"{data['header']}\n\n{auxiliary.get_question(data['header_nummer'], len(data['answers'])+1)}",
+                                 reply_markup=inline.get_questions_options('1.1'))
+
+    if len(data['answers']) == auxiliary.headers[data['header_nummer']][1]:
+        ic(data)
+        auxiliary.save_answers(data['id_in_db'], data['header_nummer'], data['answers'])
+        await call.message.edit_text(f"Данные о {data['header_nummer']} сохранены")
+
+    await call.answer()
+
+
+async def form_question_1_1(call: CallbackQuery, state: FSMContext):
+    func_name = "form_question_1_1"
+    set_func_and_person(func_name, tag, call.message)
+
+    data = await state.get_data()
+
+    data['answers'].append(helper[call.data[-1]])
+    ic(data['header_nummer'], data['answers'][-1])
+
+    await state.update_data(data)
+
+    await send_question_1_1(call, state)
+
+
+
+
+
+
+
+
+
+
+
+"""
+
+    # Вывод вопроса
+    try:
+        text1 = data['header']
+        ic(text1)
+        text2 = auxiliary.get_question(data['header_nummer'], len(data['answers'])+1)
+        ic(text2)
+        await call.message.edit_text(f"{data['header']}\n\n{auxiliary.get_question(data['header_nummer'], len(data['answers'])+1)}",
+                                     reply_markup=inline.get_questions_options('1.1'))
+        ic(len(data['answers']))
+        ic(auxiliary.headers[data['header_nummer']][1])
+        if len(data['answers']) == auxiliary.headers[data['header']][1]:
+            auxiliary.save_answers(call.message.chat.id, data['answers'])
+            await call.message.edit_text(f"Данные о {data['header_nummer']} сохранены")
+    except Exception as e:
+        ic(e)
+        data['header'] = auxiliary.get_header('1.1')
+        data['header_nummer'] = "1.1"
+        data['answers'] = []
+
+        await state.update_data(data)
+
+        await call.message.edit_text(f"{data['header']}\n\n{auxiliary.get_question(data['header_nummer'], len(data['answers'])+1)}",
+                                     reply_markup=inline.get_questions_options('1.1'))
+    new_data = await state.get_data()
+    ic(new_data)
+
+    await call.answer()
+    
+    """
+
+
+
+
+
 
 
 # async def form_question_1_1(call: CallbackQuery):
