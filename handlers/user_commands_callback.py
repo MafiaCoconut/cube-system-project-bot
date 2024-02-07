@@ -19,13 +19,13 @@ async def save_name_callback(call: CallbackQuery, state: FSMContext):
     set_func_and_person(func_name, tag, call.message)
     data = await state.get_data()
     name = data['name']
-
     await state.clear()
 
     workbook = openpyxl.load_workbook('data/main.xlsx')
-    ic(workbook.sheetnames)
-    workbook.create_sheet(name.split(' ')[0])
-    ic(workbook.sheetnames)
+    sheet = workbook['Лист1']
+
+    sheet.cell(row=1, column=sheet.max_column+1).value = call.message.chat.id
+    sheet.cell(row=2, column=sheet.max_column).value = name
 
     workbook.save('data/main.xlsx')
 

@@ -96,6 +96,12 @@ from handlers.auxiliary import headers, get_header, get_question
 async def admin_get_headers(message: Message):
     function_name = "admin_get_headers"
     set_func(function_name, tag)
-    for i in headers.keys():
-        ic(get_question(i, 2))
+
+    workbook = openpyxl.load_workbook('data/main.xlsx')
+    sheet = workbook['Лист1']
+
+    # ic(sheet.iter_rows(3))
+    ic(sheet.max_column)
+    # for i in headers.keys():
+    #     ic(get_question(i, 2))
     # await message.answer_document(text=text, document=FSInputFile(path='data.log'))
