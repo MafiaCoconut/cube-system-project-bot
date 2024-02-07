@@ -24,9 +24,17 @@ async def save_name_callback(call: CallbackQuery, state: FSMContext):
     workbook = openpyxl.load_workbook('data/main.xlsx')
     sheet = workbook['Лист1']
 
-    sheet.cell(row=1, column=sheet.max_column+1).value = call.message.chat.id
-    sheet.cell(row=2, column=sheet.max_column).value = name
-
+    is_exist = -1
+    for cell in sheet[1]:
+        if call.message.chat.id == cell.value:
+            is_exist = cell.column
+    ic(is_exist)
+    if is_exist == -1:
+        sheet.cell(row=1, column=sheet.max_column+1).value = call.message.chat.id
+        sheet.cell(row=2, column=sheet.max_column).value = name
+    else:
+        ic(name)
+        sheet.cell(row=2, column=is_exist).value = name
     workbook.save('data/main.xlsx')
 
     # await call.message.edit_text("Выберите ваше подразделение:",
