@@ -18,7 +18,10 @@ def register_all_callbacks():
     dp.callback_query.register(user_commands_callback.save_name_callback, F.data == "fio_save")
     dp.callback_query.register(user_commands_callback.rewrite_name_callback, F.data == "fio_rewrite")
 
-    dp.callback_query.register(questions_callback.form_question_1_1, F.data.startswith("1.1"))
+    dp.callback_query.register(questions_callback.menu_subsection, F.data.startswith("sections"))
+    dp.callback_query.register(questions_callback.subsection_handler, F.data.startswith("subsection"))
+
+    dp.callback_query.register(questions_callback.form_question, F.data.startswith("question"))
     # dp.callback_query.register(user_commands_callback.form_division_callback, F.data.startswith("division"))
 
     # # Help меню админа

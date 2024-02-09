@@ -57,8 +57,31 @@ def get_structural_division():
 def get_questions_options(questions_number):
     questions_numbers = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Да", callback_data=f"{questions_number}_1"),
-             InlineKeyboardButton(text="Нет", callback_data=f"{questions_number}_2")]
+            [InlineKeyboardButton(text="Да", callback_data=f"question_{questions_number}_1"),
+             InlineKeyboardButton(text="Нет", callback_data=f"question_{questions_number}_2")]
         ]
     )
     return questions_numbers
+
+
+def get_menu_sections():
+    menu_sections = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Раздел 1", callback_data="sections_1")],
+            [InlineKeyboardButton(text="Раздел 2", callback_data="sections_2")],
+            [InlineKeyboardButton(text="Раздел 3", callback_data="sections_3")],
+            [InlineKeyboardButton(text="Раздел 4", callback_data="sections_4")],
+        ]
+    )
+    return menu_sections
+
+
+def get_sections(main_section: str, max_sections: int):
+    ls = []
+    for i in range(1, max_sections+1):
+        ls.append([InlineKeyboardButton(text=f"Раздел {main_section}.{i}", callback_data=f"subsection_{main_section}.{i}")])
+    ls.append([InlineKeyboardButton(text="Назад", callback_data="subsection_0.0")])
+
+    sections = InlineKeyboardMarkup(inline_keyboard=ls)
+    return sections
+

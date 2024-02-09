@@ -33,7 +33,7 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
     msg = await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
 
     await state.set_state(UserState.name)
-    await state.update_data(last_message_id=msg.message_id)
+    await state.update_data(main_message_id=msg.message_id)
 
 
 @router.message(UserState.name)
@@ -45,14 +45,17 @@ async def form_name_handler(message: Message, state: FSMContext) -> None:
     data = await state.get_data()
 
     if len(fio) != 3:
-        await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
+        try:
+            await bot.edit_message_text(chat_id=message.chat.id, message_id=data["main_message_id"],
                                     text="Неправильный формат. Повторите попытку.")
+        except:
+            pass
     else:
         text = f"Проверьте правильность введённых данных\n\n{message.text}"
 
         await state.update_data(name=message.text)
 
-        await bot.edit_message_text(chat_id=message.chat.id, message_id=data["last_message_id"],
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=data["main_message_id"],
                                     text=text, reply_markup=inline.get_save_or_recreate())
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 

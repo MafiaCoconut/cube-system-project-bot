@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery
 from icecream import ic
 
 from config.log_def import set_func, set_func_and_person
-from handlers.questions_callback import form_question_1_1, send_question_1_1
+from handlers.questions_callback import menu_sections
 from keyboards import inline
 from handlers import auxiliary
 from utils.bot import bot
@@ -21,7 +21,7 @@ async def save_name_callback(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     name = data['name']
 
-    workbook = openpyxl.load_workbook('data/main.xlsx')
+    workbook = openpyxl.load_workbook('data/persons.xlsx')
     sheet = workbook['Лист1']
 
     is_exist = -1
@@ -32,19 +32,27 @@ async def save_name_callback(call: CallbackQuery, state: FSMContext):
     if is_exist == -1:
         sheet.cell(row=1, column=sheet.max_column+1).value = call.message.chat.id
         sheet.cell(row=2, column=sheet.max_column).value = name
+        data['id_in_db'] = sheet.max_column
+
+        for i in range(1, 5):
+            workbook = openpyxl.load_workbook(f'data/section_{i}.xlsx')
+            sheet = workbook['Лист1']
+            sheet.cell(row=1, column=sheet.max_column + 1).value = call.message.chat.id
+            sheet.cell(row=2, column=sheet.max_column).value = name
+            workbook.save(f'data/section_{i}.xlsx')
 
     else:
         ic(name)
         sheet.cell(row=2, column=is_exist).value = name
 
-    data['id_in_db'] = sheet.max_column
+        data['id_in_db'] = is_exist
+
+    # data['header_nummer'] = 0
     await state.update_data(data)
     ic(data)
 
-    workbook.save('data/main.xlsx')
-    await send_question_1_1(call, state)
-    # await call.message.edit_text("Выберите ваше подразделение:",
-    #                              reply_markup=inline.get_structural_division())
+    workbook.save('data/persons.xlsx')
+    await menu_sections(call, state)
     await call.answer()
 
 
