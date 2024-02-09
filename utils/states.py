@@ -2,13 +2,13 @@ from aiogram.fsm.state import StatesGroup, State
 
 
 class UserState(StatesGroup):
-    last_message_id = State()
-    name = State()
-    structural_division = State()
-    question_1 = State()
-    question_2 = State()
-    question_3 = State()
-    question_4 = State()
+    header_message_id = State()  # Id сообщения с заголовком
+    main_message_id = State()  # Id основного сообщения, в котором происходит взаимодействие
+    id_in_db = State  # Id столбца в excel таблице
+    name = State()  # ФИО пользователя
+    header = State()  # Текущий заголовок
+    header_nummer = State()  # Номер текущего заголовка
+    answers = State()  # Ответы на текущий заголовок
 
 
 class ExampleState(StatesGroup):
