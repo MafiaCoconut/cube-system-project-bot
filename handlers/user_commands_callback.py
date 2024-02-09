@@ -37,7 +37,7 @@ async def save_name_callback(call: CallbackQuery, state: FSMContext):
         sheet.cell(row=2, column=is_exist).value = name
 
     await state.update_data(data)
-
+    await state.set_state()
     workbook_persons.save('data/persons.xlsx')
     await menu_sections(call, state)
     await call.answer()
