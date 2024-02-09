@@ -71,7 +71,8 @@ async def send_data(message: Message):
     function_name = "form_name_handler"
     set_func_and_person(function_name, tag, message)
 
-    await message.answer_document(document=FSInputFile(path='data/main.xlsx'))
+    for i in range(1, 5):
+        await message.answer_document(document=FSInputFile(path=f'data/section_{i}.xlsx'))
 
 
 @router.message(Command('send_logs'), IsAdmin())

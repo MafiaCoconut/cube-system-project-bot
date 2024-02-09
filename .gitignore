@@ -162,7 +162,7 @@ cython_debug/
 #.idea/
 data/main.sqlite
 UniHelperBot.service
-data/main.sqlite
+data/
 config/settings.py
 test.py
 geckodriver.exe
