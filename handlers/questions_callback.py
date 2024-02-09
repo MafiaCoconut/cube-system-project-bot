@@ -23,20 +23,25 @@ async def menu_sections(call: CallbackQuery, state: FSMContext):
     await call.message.edit_text("Выбери раздел, чтобы начать его проходить", reply_markup=inline.get_menu_sections())
 
 
-async def menu_subsection(call: CallbackQuery, state: FSMContext):
+async def menu_subsection(call: CallbackQuery, state: FSMContext, status=0):
     func_name = "menu_subsection"
     set_func_and_person(func_name, tag, call.message)
+
+    if status == 1:
+        text = "Ваши ответы успешно сохранены\n\nВыберите подраздел"
+    else:
+        text = "Выберите подраздел"
 
     section = call.data[-1]
     match section:
         case "1":
-            await call.message.edit_text("Выберите подраздел", reply_markup=inline.get_sections(section, 3))
+            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 3))
         case "2":
-            await call.message.edit_text("Выберите подраздел", reply_markup=inline.get_sections(section, 3))
+            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 3))
         case "3":
-            await call.message.edit_text("Выберите подраздел", reply_markup=inline.get_sections(section, 2))
+            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 2))
         case "4":
-            await call.message.edit_text("Выберите подраздел", reply_markup=inline.get_sections(section, 6))
+            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 6))
 
 
 async def subsection_handler(call: CallbackQuery, state: FSMContext):
@@ -57,7 +62,7 @@ async def subsection_handler(call: CallbackQuery, state: FSMContext):
         data['header_message_id'] = header.message_id
 
         question = await call.message.answer(
-            f"{auxiliary.get_question(data['header_nummer'], len(data['answers']) + 1)}",
+            f"Обладаете ли вы этим умением?\n\n{auxiliary.get_question(data['header_nummer'], len(data['answers']) + 1)}",
             reply_markup=inline.get_questions_options(data['header_nummer']))
         data['main_message_id'] = question.message_id
 
@@ -73,15 +78,19 @@ async def send_question(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
 
     if len(data['answers']) != auxiliary.headers[data['header_nummer']][1]:
+        if len(data['answers'])+1 < auxiliary.headers[data['header_nummer']][2]:
+            text = "Обладаете ли вы этим умением?\n\n"
+        else:
+            text = "Владеете ли вы этим знанием?\n\n"
         await call.message.edit_text(
-            f"{auxiliary.get_question(data['header_nummer'], len(data['answers']) + 1)}",
+            f"{text}{auxiliary.get_question(data['header_nummer'], len(data['answers']) + 1)}",
             reply_markup=inline.get_questions_options(data['header_nummer']))
 
     else:
         ic(data)
         auxiliary.save_answers(data['id_in_db'], data['header_nummer'], data['answers'])
-        await call.message.edit_text(f"Данные о {data['header_nummer']} сохранены")
-        await menu_subsection(call, state)
+        # await call.message.edit_text(f"Данные о {data['header_nummer']} сохранены")
+        await menu_subsection(call, state, 1)
         await bot.delete_message(chat_id=call.message.chat.id, message_id=data['header_message_id'])
 
     await call.answer()
