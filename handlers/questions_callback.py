@@ -27,21 +27,20 @@ async def menu_subsection(call: CallbackQuery, state: FSMContext, status=0):
     func_name = "menu_subsection"
     set_func_and_person(func_name, tag, call.message)
 
+    data = await state.get_data()
+
     if status == 1:
+        section = data['header_nummer'][0]
         text = "Ваши ответы успешно сохранены\n\nВыберите подраздел"
     else:
         text = "Выберите подраздел"
+        section = call.data[-1]
+    sections = [3, 3, 2, 6]  # количество подразделов в разделах 1, 2, 3, 4
 
-    section = call.data[-1]
-    match section:
-        case "1":
-            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 3))
-        case "2":
-            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 3))
-        case "3":
-            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 2))
-        case "4":
-            await call.message.edit_text(text, reply_markup=inline.get_sections(section, 6))
+    await call.message.edit_text(text, reply_markup=inline.get_sections(
+                                       auxiliary.get_id_in_db(call.message.chat.id),
+                                       section,
+                                       sections[int(section)-1]))
 
 
 async def subsection_handler(call: CallbackQuery, state: FSMContext):
@@ -49,7 +48,6 @@ async def subsection_handler(call: CallbackQuery, state: FSMContext):
     set_func_and_person(func_name, tag, call.message)
 
     header_nummer = call.data[-3:]
-    ic(header_nummer)
     if header_nummer == "0.0":
         await menu_sections(call, state)
 
@@ -65,8 +63,6 @@ async def subsection_handler(call: CallbackQuery, state: FSMContext):
             f"Обладаете ли вы этим умением?\n\n{auxiliary.get_question(data['header_nummer'], len(data['answers']) + 1)}",
             reply_markup=inline.get_questions_options(data['header_nummer']))
         data['main_message_id'] = question.message_id
-
-        ic(data)
 
         await state.update_data(data)
 
@@ -87,9 +83,7 @@ async def send_question(call: CallbackQuery, state: FSMContext):
             reply_markup=inline.get_questions_options(data['header_nummer']))
 
     else:
-        ic(data)
-        auxiliary.save_answers(data['id_in_db'], data['header_nummer'], data['answers'])
-        # await call.message.edit_text(f"Данные о {data['header_nummer']} сохранены")
+        auxiliary.save_answers(auxiliary.get_id_in_db(call.message.chat.id), data['header_nummer'], data['answers'])
         await menu_subsection(call, state, 1)
         await bot.delete_message(chat_id=call.message.chat.id, message_id=data['header_message_id'])
 
@@ -103,7 +97,6 @@ async def form_question(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
 
     data['answers'].append(helper[call.data[-1]])
-    ic(data['header_nummer'], data['answers'][-1])
 
     await state.update_data(data)
 

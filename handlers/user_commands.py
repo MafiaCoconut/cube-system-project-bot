@@ -30,10 +30,13 @@ async def command_start_handler(message: Message, state: FSMContext) -> None:
     function_name = "command_start_handler"
     set_func(function_name, tag, status)
 
-    msg = await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
-
-    await state.set_state(UserState.name)
-    await state.update_data(main_message_id=msg.message_id)
+    is_exist = auxiliary.is_exist(message.chat.id)
+    if is_exist == -1:
+        msg = await message.answer("Добро пожаловать!\nВведите ваше ФИО через пробел.")
+        await state.set_state(UserState.name)
+        await state.update_data(main_message_id=msg.message_id)
+    else:
+        await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
 
 
 @router.message(UserState.name)
@@ -78,17 +81,19 @@ async def admin_send_logs_with_command(message: Message):
     await message.answer_document(text=text, document=FSInputFile(path='data.log'))
 
 
+
 from handlers.auxiliary import headers, get_header, get_question
 @router.message(Command('get_test'), IsAdmin())
 async def admin_get_headers(message: Message):
     function_name = "admin_get_headers"
     set_func(function_name, tag)
 
-    workbook = openpyxl.load_workbook('data/main.xlsx')
-    sheet = workbook['Лист1']
+    ic(auxiliary.get_id_in_db('603789543'))
+
+    # workbook = openpyxl.load_workbook('data/main.xlsx')
+    # sheet = workbook['Лист1']
 
     # ic(sheet.iter_rows(3))
-    ic(sheet.max_column)
     # for i in headers.keys():
     #     ic(get_question(i, 2))
     # await message.answer_document(text=text, document=FSInputFile(path='data.log'))

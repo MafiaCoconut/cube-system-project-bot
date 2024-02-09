@@ -3,6 +3,8 @@ from aiogram.types import (
     InlineKeyboardMarkup,
 )
 from fluent.runtime import FluentLocalization
+from handlers import auxiliary
+from icecream import ic
 
 
 def get_main_menu():
@@ -76,10 +78,11 @@ def get_menu_sections():
     return menu_sections
 
 
-def get_sections(main_section: str, max_sections: int):
+def get_sections(id_in_db: str, main_section: str, max_sections: int):
     ls = []
     for i in range(1, max_sections+1):
-        ls.append([InlineKeyboardButton(text=f"Раздел {main_section}.{i}", callback_data=f"subsection_{main_section}.{i}")])
+        ls.append([InlineKeyboardButton(text=f"Раздел {main_section}.{i} {auxiliary.get_status_section(id_in_db, f'{main_section}.{i}')}",
+                                        callback_data=f"subsection_{main_section}.{i}")])
     ls.append([InlineKeyboardButton(text="Назад", callback_data="subsection_0.0")])
 
     sections = InlineKeyboardMarkup(inline_keyboard=ls)
