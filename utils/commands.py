@@ -7,6 +7,10 @@ async def set_commands(bot: Bot):
         BotCommand(
             command='start',
             description='Начать прохождение анкеты'
+        ),
+        BotCommand(
+            command='main_menu',
+            description='Вывести главное меню'
         )
     ]
 
