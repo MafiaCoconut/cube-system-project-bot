@@ -90,13 +90,13 @@ async def send_data(message: Message):
     await message.answer("Выбери раздел, чтобы начать его проходить", reply_markup=inline.get_menu_sections())
 
 
-from handlers.auxiliary import headers, get_header, get_question
-@router.message(Command('get_test'), IsAdmin())
-async def admin_get_headers(message: Message):
-    function_name = "admin_get_headers"
-    set_func(function_name, tag)
-
-    ic(auxiliary.get_id_in_db('603789543'))
+# from handlers.auxiliary import headers, get_header, get_question
+# @router.message(Command('get_test'), IsAdmin())
+# async def admin_get_headers(message: Message):
+#     function_name = "admin_get_headers"
+#     set_func(function_name, tag)
+#
+#     ic(auxiliary.get_id_in_db('603789543'))
 
     # workbook = openpyxl.load_workbook('data/main.xlsx')
     # sheet = workbook['Лист1']
