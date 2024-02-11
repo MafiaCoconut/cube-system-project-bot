@@ -84,7 +84,7 @@ async def admin_send_logs_with_command(message: Message):
 
 @router.message(Command('main_menu'))
 async def main_menu_handler(message: Message):
-    function_name = "form_name_handler"
+    function_name = "main_menu_handler"
     set_func_and_person(function_name, tag, message)
 
     await message.answer("Выбери раздел, чтобы начать его проходить", reply_markup=inline.get_menu_sections())
