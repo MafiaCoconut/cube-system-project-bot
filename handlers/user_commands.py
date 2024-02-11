@@ -82,8 +82,8 @@ async def admin_send_logs_with_command(message: Message):
     await message.answer_document(text=text, document=FSInputFile(path='data.log'))
 
 
-@router.message(Command('main_menu'), IsAdmin())
-async def send_data(message: Message):
+@router.message(Command('main_menu'))
+async def main_menu_handler(message: Message):
     function_name = "form_name_handler"
     set_func_and_person(function_name, tag, message)
 
