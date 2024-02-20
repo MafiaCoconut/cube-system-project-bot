@@ -1,7 +1,7 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 
-from app.config import set_func_and_person
+from app.utils.logs import set_func_and_person
 from app.keyboards import inline
 from app.handlers import auxiliary
 from app.utils.bot import bot

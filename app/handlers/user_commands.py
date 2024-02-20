@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 from app.handlers import auxiliary
 from app.keyboards import inline
 
-from app.config import set_func, set_func_and_person
+from app.utils.logs import set_func, set_func_and_person
 from app.utils.states import UserState
 from app.utils.bot import bot
 from app.filters.is_admin import IsAdmin

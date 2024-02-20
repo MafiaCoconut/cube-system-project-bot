@@ -3,7 +3,7 @@ from datetime import datetime
 import openpyxl
 import pandas as pd
 
-from app.config import get_admin_id
+from app.config_reader import get_admin_id
 from aiogram.types import CallbackQuery
 from app.utils.bot import bot
 
@@ -49,16 +49,16 @@ def is_weekday():
 
 
 def get_row_index(chat_id):
-    df = pd.read_excel("data/main.xlsx")
+    df = pd.read_excel("app/data/main.xlsx")
     row_index = df.index[df['ID'] == chat_id].tolist()[0]
     return row_index
 
 
 def save_data(chat_id, column_name, text):
-    df = pd.read_excel("data/main.xlsx").astype("str")
+    df = pd.read_excel("app/data/main.xlsx").astype("str")
     row_index = df.index[df['ID'] == str(chat_id)].tolist()[0]
     df.at[row_index, column_name] = text
-    df.to_excel("data/main.xlsx", index=False)
+    df.to_excel("app/data/main.xlsx", index=False)
 
 
 headers = {
@@ -83,7 +83,7 @@ headers = {
 
 
 def get_question(header_nummer, nummer):
-    workbook = openpyxl.load_workbook(f'data/section_{header_nummer[0]}.xlsx')
+    workbook = openpyxl.load_workbook(f'app/data/section_{header_nummer[0]}.xlsx')
     sheet = workbook['Лист1']
 
     header_row = headers[header_nummer][0]
@@ -91,14 +91,14 @@ def get_question(header_nummer, nummer):
 
 
 def get_header(header_nummer):
-    workbook = openpyxl.load_workbook(f'data/section_{header_nummer[0]}.xlsx')
+    workbook = openpyxl.load_workbook(f'app/data/section_{header_nummer[0]}.xlsx')
     sheet = workbook['Лист1']
 
     return sheet.cell(row=headers[header_nummer][0], column=2).value
 
 
 def save_answers(id_in_db, header_nummer, answers):
-    workbook = openpyxl.load_workbook(f'data/section_{header_nummer[0]}.xlsx')
+    workbook = openpyxl.load_workbook(f'app/data/section_{header_nummer[0]}.xlsx')
     sheet = workbook['Лист1']
 
     sheet.cell(row=headers[header_nummer][0], column=id_in_db).value = "-"
@@ -106,11 +106,11 @@ def save_answers(id_in_db, header_nummer, answers):
     for index, answer in enumerate(answers):
         sheet.cell(row=headers[header_nummer][0] + index + 1, column=id_in_db).value = answer
 
-    workbook.save(f'data/section_{header_nummer[0]}.xlsx')
+    workbook.save(f'app/data/section_{header_nummer[0]}.xlsx')
 
 
 def get_status_section(id_in_db, header_nummer):
-    workbook = openpyxl.load_workbook(f'data/section_{header_nummer[0]}.xlsx')
+    workbook = openpyxl.load_workbook(f'app/data/section_{header_nummer[0]}.xlsx')
     sheet = workbook['Лист1']
 
     if sheet.cell(row=headers[header_nummer][0], column=id_in_db).value == "-":
@@ -119,7 +119,7 @@ def get_status_section(id_in_db, header_nummer):
 
 
 def get_id_in_db(chat_id):
-    workbook = openpyxl.load_workbook('data/persons.xlsx')
+    workbook = openpyxl.load_workbook('app/data/persons.xlsx')
     sheet = workbook['Лист1']
 
     for cell in sheet[1]:
@@ -128,7 +128,7 @@ def get_id_in_db(chat_id):
 
 
 def is_exist(chat_id):
-    workbook_persons = openpyxl.load_workbook('data/persons.xlsx')
+    workbook_persons = openpyxl.load_workbook('app/data/persons.xlsx')
     sheet = workbook_persons['Лист1']
     flag_id = -1
     for cell in sheet[1]:
