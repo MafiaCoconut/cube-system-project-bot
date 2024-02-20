@@ -1,4 +1,4 @@
-from fluent.runtime import FluentLocalization, FluentResourceLoader
+from app.utils.fluent import FluentLocalization, FluentResourceLoader
 
 loader = FluentResourceLoader("locales/{locale}")
 

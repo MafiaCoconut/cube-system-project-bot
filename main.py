@@ -1,10 +1,10 @@
 import asyncio
 
-from utils import commands, registration_dispatcher
+from app.utils import registration_dispatcher, commands
 
-from config.config import get_token
-from config import settings
-from utils.bot import bot
+from app.config import get_token
+from app.config import settings
+from app.utils.bot import bot
 
 TOKEN = get_token()
 

@@ -2,12 +2,10 @@ import openpyxl
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 
-from config.log_def import set_func, set_func_and_person
-from handlers.questions_callback import menu_sections
-from keyboards import inline
-from handlers import auxiliary
-from utils.bot import bot
-from utils.states import UserState
+from app.config import set_func_and_person
+from app.handlers.questions_callback import menu_sections
+from app.handlers import auxiliary
+from app.utils.states import UserState
 
 tag = "callback_handlers"
 

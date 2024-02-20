@@ -2,9 +2,7 @@ from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
-from fluent.runtime import FluentLocalization
-from handlers import auxiliary
-from icecream import ic
+from app.handlers import auxiliary
 
 
 def get_main_menu():

@@ -1,7 +1,7 @@
 from aiogram import Bot
 from aiogram.enums import ParseMode
 
-from config.config import get_token
+from app.config import get_token
 TOKEN = get_token()
 
 

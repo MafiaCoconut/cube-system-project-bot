@@ -2,11 +2,10 @@ from datetime import datetime
 
 import openpyxl
 import pandas as pd
-from icecream import ic
 
-from config.config import get_admin_id
+from app.config import get_admin_id
 from aiogram.types import CallbackQuery
-from utils.bot import bot
+from app.utils.bot import bot
 
 
 def is_correct_time(data):

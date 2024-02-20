@@ -1,23 +1,15 @@
-import logging
-
 from aiogram import Router
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, CallbackQuery, FSInputFile
+from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
 
-from handlers import auxiliary
-from keyboards import inline
+from app.handlers import auxiliary
+from app.keyboards import inline
 
-import pandas as pd
-import openpyxl
-from icecream import ic
-
-from config.log_def import set_func, set_func_and_person
-from utils.fluent import list_of_available_languages
-from utils.states import UserState
-from utils.bot import bot
-from config.config import name
-from filters.is_admin import IsAdmin
+from app.config import set_func, set_func_and_person
+from app.utils.states import UserState
+from app.utils.bot import bot
+from app.filters.is_admin import IsAdmin
 
 router = Router()
 tag = "user_commands"

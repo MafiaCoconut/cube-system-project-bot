@@ -1,11 +1,10 @@
-from aiogram import Router, types, F
+from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from config.log_def import set_inside_func, send_log
-from utils.bot import bot
-from handlers import auxiliary, user_commands
-from keyboards import reply, inline
+from app.config import send_log
+from app.utils.bot import bot
+from app.handlers import user_commands, auxiliary
 from icecream import ic
 
 

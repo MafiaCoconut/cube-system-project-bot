@@ -1,15 +1,10 @@
-import pandas as pd
-from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
-from icecream import ic
 
-from config.log_def import set_func, set_func_and_person
-from keyboards import inline
-from handlers import auxiliary
-from utils.bot import bot
-from data.text import *
-from config.config import name, chat_id as chat_id_text, structural_division, \
-    question_1, question_2, question_3, question_4
+from app.config import set_func_and_person
+from app.keyboards import inline
+from app.handlers import auxiliary
+from app.data.text import *
+from app.config import question_1, question_2, question_3, question_4
 
 tag = "callback_handlers"
 helper = {'yes': "Да", "no": "Нет", "part": "Частично"}
