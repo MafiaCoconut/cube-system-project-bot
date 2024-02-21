@@ -37,7 +37,7 @@ async def save_name_callback(call: CallbackQuery, state: FSMContext):
     await state.update_data(data)
     await state.set_state()
     workbook_persons.save('app/data/persons.xlsx')
-    await menu_sections(call, state)
+    await menu_sections(call)
     await call.answer()
 
 

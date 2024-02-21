@@ -1,6 +1,9 @@
 import logging
 from app.config_reader import get_type_of_device
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 system_logger = logging.getLogger('system_logging')
 user_logger = logging.getLogger('user_logging')
 
@@ -60,12 +63,11 @@ def logs_settings():
     user_handler.setFormatter(formatter)
 
     global system_logger
-    if get_type_of_device() == "Laptop":
+    if os.getenv("DEVICE") == "Laptop":
         logging.basicConfig(
             format='[%(levelname)s] %(asctime)s - %(message)s',
             datefmt='%d.%m-%H:%M',
         )
-        # Настройка внутренних логгеров
         system_logger.setLevel(logging.DEBUG)
     else:
         system_logger.setLevel(logging.INFO)

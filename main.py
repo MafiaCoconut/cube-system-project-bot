@@ -1,12 +1,11 @@
 import asyncio
 
+
 from app.utils import registration_dispatcher, commands
 
 from app.config_reader import get_token
 from app.utils.logs import logs_settings
 from app.utils.bot import bot
-
-TOKEN = get_token()
 
 
 async def main() -> None:

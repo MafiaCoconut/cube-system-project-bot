@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
@@ -65,14 +65,24 @@ async def send_data(message: Message):
         await message.answer_document(document=FSInputFile(path=f'data/section_{i}.xlsx'))
 
 
-@router.message(Command('send_logs'), IsAdmin())
-async def admin_send_logs_with_command(message: Message):
-    function_name = "admin_send_logs_with_command"
+@router.message(F.text == '/send_user_logs', IsAdmin())
+async def admin_send_user_logs_with_command(message: Message):
+    function_name = "admin_send_user_logs_with_command"
+    set_func(function_name, tag)
+
+    text = "Пользовательские логи отправлены"
+
+    await message.answer_document(text=text, document=FSInputFile(path='user_data.log'))
+
+
+@router.message(F.text == '/send_system_logs', IsAdmin())
+async def admin_send_system_logs_with_command(message: Message):
+    function_name = "admin_send_system_logs_with_command"
     set_func(function_name, tag)
 
     text = "Логи отправлены"
 
-    await message.answer_document(text=text, document=FSInputFile(path='data.log'))
+    await message.answer_document(text=text, document=FSInputFile(path='system_data.log'))
 
 
 @router.message(Command('main_menu'))
