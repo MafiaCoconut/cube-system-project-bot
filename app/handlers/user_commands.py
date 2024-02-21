@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
+from icecream import ic
 
 from app.handlers import auxiliary
 from app.keyboards import inline
@@ -83,13 +84,14 @@ async def main_menu_handler(message: Message):
 
 
 # from handlers.auxiliary import headers, get_header, get_question
-# @router.message(Command('get_test'), IsAdmin())
-# async def admin_get_headers(message: Message):
-#     function_name = "admin_get_headers"
-#     set_func(function_name, tag)
-#
-#     ic(auxiliary.get_id_in_db('603789543'))
+@router.message(Command('get_test'))
+async def admin_get_headers(message: Message):
+    function_name = "admin_get_headers"
+    set_func(function_name, tag)
 
+    ic(message)
+    # ic(auxiliary.get_id_in_db('603789543'))
+    #
     # workbook = openpyxl.load_workbook('data/main.xlsx')
     # sheet = workbook['Лист1']
 
