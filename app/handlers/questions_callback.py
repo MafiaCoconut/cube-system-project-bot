@@ -1,10 +1,10 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 
-from app.utils.logs import set_func_and_person
-from app.keyboards import inline
-from app.handlers import auxiliary
-from app.utils.bot import bot
+from utils.logs import set_func_and_person
+from keyboards import inline
+from handlers import auxiliary
+from utils.bot import bot
 
 tag = "callback_handlers"
 helper = {'1': "Да", "2": "Нет"}

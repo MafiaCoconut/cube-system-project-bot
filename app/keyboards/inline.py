@@ -2,7 +2,7 @@ from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
-from app.handlers import auxiliary
+from handlers import auxiliary
 
 
 def get_main_menu():

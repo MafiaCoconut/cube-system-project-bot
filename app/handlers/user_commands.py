@@ -4,13 +4,13 @@ from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
 from icecream import ic
 
-from app.handlers import auxiliary
-from app.keyboards import inline
+from handlers import auxiliary
+from keyboards import inline
 
-from app.utils.logs import set_func, set_func_and_person
-from app.utils.states import UserState
-from app.utils.bot import bot
-from app.filters.is_admin import IsAdmin
+from utils.logs import set_func, set_func_and_person
+from utils.states import UserState
+from utils.bot import bot
+from filters.is_admin import IsAdmin
 
 router = Router()
 tag = "user_commands"
@@ -97,7 +97,7 @@ async def main_menu_handler(message: Message):
     await message.answer("Выбери раздел, чтобы начать его проходить", reply_markup=inline.get_menu_sections())
 
 
-from app.utils.postgresql import cur
+from utils.postgresql import cur
 
 
 @router.message(Command('get_test'))

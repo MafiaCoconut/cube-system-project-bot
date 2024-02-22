@@ -1,5 +1,4 @@
 import logging
-from app.config_reader import get_type_of_device
 from dotenv import load_dotenv
 import os
 

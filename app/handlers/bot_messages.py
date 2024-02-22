@@ -2,9 +2,9 @@ from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from app.utils.logs import send_log
-from app.utils.bot import bot
-from app.handlers import user_commands, auxiliary
+from utils.logs import send_log
+from utils.bot import bot
+from handlers import user_commands, auxiliary
 from icecream import ic
 
 

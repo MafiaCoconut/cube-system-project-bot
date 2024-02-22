@@ -1,9 +1,9 @@
 import asyncio
 
-from app.utils import registration_dispatcher, commands
-from app.utils.logs import logs_settings, system_logger
-from app.utils.bot import bot
-from app.utils.postgresql import close_connection
+from utils import registration_dispatcher, commands
+from utils.logs import logs_settings, system_logger
+from utils.bot import bot
+from utils.postgresql import close_connection
 
 
 async def main() -> None:

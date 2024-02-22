@@ -1,6 +1,6 @@
 from aiogram import Dispatcher, F
 
-from app.handlers import user_commands, user_commands_callback, questions_callback, bot_messages
+from handlers import user_commands, user_commands_callback, questions_callback, bot_messages
 
 dp = Dispatcher()
 # dp.message.middleware(SomeMiddleware())
