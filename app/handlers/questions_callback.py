@@ -43,7 +43,7 @@ async def subsection_handler(call: CallbackQuery, state: FSMContext):
 
     header_nummer = call.data[-3:]
     if header_nummer == "0.0":
-        await menu_sections(call, state)
+        await menu_sections(call)
 
     else:
         data = await state.get_data()
