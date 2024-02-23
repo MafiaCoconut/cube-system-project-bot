@@ -25,4 +25,8 @@ def close_connection():
     cur.close()
 
 
-
+def create_table():
+    cur.execute("CREATE TABLE IF NOT EXISTS users ("
+                "users_id SERIAL PRIMARY KEY, "
+                "telegram_id VARCHAR(100), "
+                "telegram_username TEXT)")

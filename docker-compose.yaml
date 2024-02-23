@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  db:
+    image: cube-postgres
+#    container_name: database
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: cube_db
+    volumes:
+      - cube_db:/var/lib/postgresql/data
+#    networks:
+#      - cube-network
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready', '-U', 'admin']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    image: cube-system-bot:2
+#    container_name: bot
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: cube_db
+      DB_USER: admin
+      DB_PASSWORD: admin
+      TOKEN: 6463599178:AAGpifGcbscRtvREdFvwqjloa0_PSJGSzsk
+      ADMIN_IDS: 603789543,991027824
+      DEVICE: Laptop
+#    networks:
+#      - cube-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  cube_db:
+    name: cube_db
+#
+#networks:
+#  cube-network:
+#    name: cube-network
